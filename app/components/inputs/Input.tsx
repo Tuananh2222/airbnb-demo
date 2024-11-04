@@ -1,6 +1,6 @@
 'use client'
 
-import { FieldError, FieldValues, UseFormRegister } from "react-hook-form";
+import { FieldError, FieldErrorsImpl, FieldValues, Merge, UseFormRegister } from "react-hook-form";
 import { BiDollar } from "react-icons/bi";
 
 interface InputProps {
@@ -10,7 +10,8 @@ interface InputProps {
   disabled?: boolean;
   formatPrice?: boolean;
   register: UseFormRegister<FieldValues>;
-  errors: FieldError;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  errors: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
   required?: boolean;
 }
 const Input: React.FC<InputProps> = ({
@@ -40,8 +41,8 @@ const Input: React.FC<InputProps> = ({
         type={type}
         className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-md outline-none text-sm transition disabled:opacity-70 disabled:cursor-not-allowed 
         ${formatPrice ? 'pl-9' : 'pl-4'}
-        ${errors[id] ? 'border-rose-500' : 'border-neutral-300'}
-        ${errors[id] ? 'focus:border-rose-500' : 'focus:border-black'}
+        ${errors[id as keyof typeof errors] ? 'border-rose-500' : 'border-neutral-300'}
+        ${errors[id as keyof typeof errors] ? 'focus:border-rose-500' : 'focus:border-black'}
         `}
       />
       <label className={`
@@ -58,7 +59,7 @@ const Input: React.FC<InputProps> = ({
         peer-placeholder-shown:translate-y-0
         peer-focus:scale-75
         peer-focus:-translate-y-4
-        ${errors[id] ? 'text-rose-500' : 'text-zinc-400'}
+        ${errors[id as keyof typeof errors] ? 'text-rose-500' : 'text-zinc-400'}
         `}>{label}</label>
     </div>
   );

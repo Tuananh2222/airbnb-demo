@@ -111,15 +111,17 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing, currentUser, res
           />
 
           <div className="grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6">
-            <ListingInfo
-              user={listing.user}
-              category={category}
-              description={listing.description}
-              roomCount={listing.roomCount}
-              guestCount={listing.guestCount}
-              bathroomCount={listing.bathroomCount}
-              locationValue={listing.locationValue}
-            />
+            {category && (
+              <ListingInfo
+                user={listing.user}
+                category={category}
+                description={listing.description}
+                roomCount={listing.roomCount}
+                guestCount={listing.guestCount}
+                bathroomCount={listing.bathroomCount}
+                locationValue={listing.locationValue}
+              />
+            )}
             <div className="order-first md:order-last col-span-3 mb-10">
               <ListingReservation
                 price={listing.price}
