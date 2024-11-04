@@ -31,7 +31,10 @@ export default async function getListingById(params: IParams) {
         emailVerigied: listing.user.emailVerigied?.toISOString() || null,
       },
     };
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("An unknown error occurred");
   }
 }

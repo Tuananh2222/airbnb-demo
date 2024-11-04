@@ -1,7 +1,5 @@
 'use client';
 
-import axios from "axios";
-
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useCallback, useState } from "react";

@@ -19,6 +19,16 @@ enum STEPS {
   INFO = 2
 }
 
+type QueryParams = {
+  locationValue?: string;
+  guestCount?: number;
+  roomCount?: number;
+  bathRoomCount?: number;
+  startDate?: string;
+  endDate?: string;
+  [key: string]: string | number | undefined; // Allow additional properties
+};
+
 const SearchModal = () => {
   const router = useRouter();
   const params = useSearchParams();
@@ -58,7 +68,7 @@ const SearchModal = () => {
       currentQuery = qs.parse(params.toString());
     }
 
-    const updatedQuery: any = {
+    const updatedQuery: QueryParams = {
       ...currentQuery,
       locationValue: location?.value,
       guestCount,

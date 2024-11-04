@@ -5,10 +5,9 @@ import Modal from "./Modal";
 import { useMemo, useState } from "react";
 import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
-import CategoryBox from "../CategoryBox";
 import CategoryInput from "../inputs/CategoryInput";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import CountrySelect from "../inputs/CountrySelect";
+import CountrySelect, { CountrySelectValue } from "../inputs/CountrySelect";
 import dynamic from "next/dynamic";
 import Counter from "../inputs/Counter";
 import ImageUpload from "../inputs/ImageUpload";
@@ -67,7 +66,7 @@ const RentModal = () => {
     [location]
   );
 
-  const setCustomValue = (id: string, value: any) => {
+  const setCustomValue = (id: string, value: string | number | null | CountrySelectValue) => {
     setValue(id, value, {
       shouldDirty: true,
       shouldTouch: true,

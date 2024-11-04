@@ -6,11 +6,17 @@ interface IParams {
   authorId?: string;
 }
 
+type QueryType = {
+  listingId?: string;
+  userId?: string;
+  listing?: { userId: string };
+};
+
 export default async function getReservation(params: IParams) {
   try {
     const { listingId, userId, authorId } = params;
 
-    const query: any = {};
+    const query: QueryType = {};
 
     if (listingId) {
       query.listingId = listingId;
@@ -47,7 +53,10 @@ export default async function getReservation(params: IParams) {
     }));
 
     return safeReservations;
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("An unknown error occurred");
   }
 }

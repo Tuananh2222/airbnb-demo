@@ -11,6 +11,25 @@ export interface IListingsParams {
   category?: string;
 }
 
+interface QueryParams {
+  userId?: string;
+  category?: string;
+  roomCount?: { gte: number };
+  guestCount?: { gte: number };
+  bathroomCount?: { gte: number };
+  locationValue?: string;
+  NOT?: {
+    reservations: {
+      some: {
+        OR: Array<{
+          endDate: { gte: string };
+          startDate: { lte: string };
+        }>;
+      };
+    };
+  };
+}
+
 export default async function getListings(params: IListingsParams) {
   try {
     const {
@@ -24,7 +43,7 @@ export default async function getListings(params: IListingsParams) {
       category,
     } = params;
 
-    let query: any = {};
+    const query: QueryParams = {};
 
     if (userId) {
       query.userId = userId;
@@ -87,7 +106,10 @@ export default async function getListings(params: IListingsParams) {
     }));
 
     return safeListings;
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("An unknown error occurred");
   }
 }
