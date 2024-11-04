@@ -5,8 +5,9 @@ declare global {
   let prisma: typeof PrismaClient | undefined;
 }
 
-const client = globalThis.prisma || new PrismaClient();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const client = (globalThis as any).prisma || new PrismaClient();
 
-if (process.env.NODE_ENV !== "production") globalThis.prisma = client;
+if (process.env.NODE_ENV !== "production") (globalThis as any).prisma = client;
 
 export default client;
