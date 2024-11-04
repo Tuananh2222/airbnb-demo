@@ -16,6 +16,7 @@ interface ImageUploadProps {
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
   const handleUpload = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (result: any) => {
       onChange(result.info.secure_url);
     },
