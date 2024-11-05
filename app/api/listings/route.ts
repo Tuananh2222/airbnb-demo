@@ -24,26 +24,42 @@ export async function POST(request: Request) {
     price,
   } = body;
 
-  Object.keys(body).forEach((value: string) => {
-    if (!body[value]) {
-      NextResponse.error();
+  const requiredFields = [
+    title,
+    description,
+    imageSrc,
+    category,
+    roomCount,
+    bathroomCount,
+    guestCount,
+    location,
+    price,
+  ];
+  for (const field of requiredFields) {
+    if (!field) {
+      return NextResponse.error(); // Return error if any required field is missing
     }
-  });
+  }
 
-  const listing = await prisma.listing.create({
-    data: {
-      title,
-      description,
-      imageSrc,
-      category,
-      roomCount,
-      bathroomCount,
-      guestCount,
-      locationValue: location.value,
-      price: parseInt(price,10),
-      userId: currentUser.id
-    },
-  });
+  try {
+    const listing = await prisma.listing.create({
+      data: {
+        title,
+        description,
+        imageSrc,
+        category,
+        roomCount,
+        bathroomCount,
+        guestCount,
+        locationValue: location.value,
+        price: parseInt(price, 10),
+        userId: currentUser.id,
+      },
+    });
 
-  return NextResponse.json(listing)
+    return NextResponse.json(listing);
+  } catch (error) {
+    console.error("Error creating listing:", error);
+    return NextResponse.error(); // Return error if Prisma fails
+  }
 }
