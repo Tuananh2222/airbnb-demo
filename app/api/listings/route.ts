@@ -41,6 +41,10 @@ export async function POST(request: Request) {
     }
   }
 
+  if (!location || !location.value) {
+    return NextResponse.error();
+  }
+
   try {
     const listing = await prisma.listing.create({
       data: {
